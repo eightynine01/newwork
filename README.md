@@ -112,7 +112,7 @@ NewWork-Setup.exe
 #### 1. 저장소 클론
 
 ```bash
-git clone https://github.com/yourusername/newwork.git
+git clone https://github.com/eightynine01/newwork.git
 cd newwork
 ```
 
@@ -420,17 +420,63 @@ dart format lib/
 - [ ] 자동 업데이트
 - [ ] 커뮤니티 지원
 
+## 🔄 유사 프로젝트 비교
+
+NewWork는 다른 AI 코딩 어시스턴트 프로젝트들과 어떻게 다른지 비교해보세요.
+
+| 특성 | NewWork | [OpenWork](https://github.com/different-ai/openwork) | [Moltbot](https://github.com/moltbot/moltbot) |
+|------|---------|----------|---------|
+| ⭐ GitHub Stars | ![GitHub stars](https://img.shields.io/github/stars/eightynine01/newwork?style=social) | ![GitHub stars](https://img.shields.io/github/stars/different-ai/openwork?style=social) | ![GitHub stars](https://img.shields.io/github/stars/moltbot/moltbot?style=social) |
+| 🎯 핵심 목표 | 통합 데스크톱 앱 | 에이전트 워크플로우 | 개인 AI 어시스턴트 |
+| 🖥️ 프론트엔드 | Flutter | SolidJS + TailwindCSS | Node.js CLI |
+| ⚙️ 백엔드 | FastAPI (Python) | OpenCode CLI (spawned) | TypeScript |
+| 📦 데스크톱 | Native (Flutter) | Tauri 2.x (Rust) | Electron/Native |
+| 💾 데이터베이스 | SQLite (로컬) | IndexedDB | 로컬 파일 |
+| 🔌 메시징 통합 | ❌ | WhatsApp (owpenbot) | WhatsApp, Telegram, Discord, Slack 등 |
+| 📱 모바일 | ✅ (Flutter) | ❌ | ❌ |
+| 🚀 설치 방식 | 단일 실행 파일 | DMG/소스 빌드 | CLI 설치 |
+| 🔧 OpenCode 의존 | 선택적 | 필수 | 독립 |
+
+### 왜 NewWork인가?
+
+1. **진정한 올인원**: 백엔드가 앱 안에 완전히 내장되어 별도 설정 불필요
+2. **Flutter 기반**: 모바일 확장이 용이하고 Material Design 3 적용
+3. **Python 백엔드**: 확장과 커스터마이징이 쉬운 FastAPI 아키텍처
+4. **프라이버시 우선**: 모든 데이터가 로컬에 저장되며 외부 서버 불필요
+
 ## 🤝 기여하기
 
-기여를 환영합니다! 자세한 내용은 [CONTRIBUTING.md](CONTRIBUTING.md)를 참고해주세요.
+**모든 형태의 기여를 환영합니다!** 🎉
 
-### 기여 방법
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+[![Good First Issues](https://img.shields.io/github/issues/eightynine01/newwork/good%20first%20issue?color=7057ff&label=good%20first%20issues)](https://github.com/eightynine01/newwork/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
-1. 프로젝트를 포크합니다
-2. 기능 브랜치를 생성합니다 (`git checkout -b feature/AmazingFeature`)
-3. 변경사항을 커밋합니다 (`git commit -m 'Add some AmazingFeature'`)
-4. 브랜치에 푸시합니다 (`git push origin feature/AmazingFeature`)
-5. Pull Request를 생성합니다
+### 🌟 기여 방법
+
+| 유형 | 설명 |
+|------|------|
+| 🐛 **버그 리포트** | 문제를 발견하셨나요? [이슈](https://github.com/eightynine01/newwork/issues/new?template=bug_report.md)를 열어주세요 |
+| 💡 **기능 제안** | 아이디어가 있으시면 [제안](https://github.com/eightynine01/newwork/issues/new?template=feature_request.md)해주세요 |
+| 📝 **문서 개선** | 오타 수정, 번역, 가이드 추가 모두 환영합니다 |
+| 🔧 **코드 기여** | PR을 보내주세요! OpenCode 관련 PR 특히 환영합니다 |
+| ⭐ **Star 주기** | 프로젝트가 마음에 드시면 Star를 눌러주세요! |
+
+### 개발 플로우
+
+```bash
+# 1. 포크 후 클론
+git clone https://github.com/YOUR_USERNAME/newwork.git
+cd newwork
+
+# 2. 기능 브랜치 생성
+git checkout -b feature/amazing-feature
+
+# 3. 변경사항 커밋
+git commit -m "feat: add amazing feature"
+
+# 4. PR 생성
+git push origin feature/amazing-feature
+```
 
 ### 개발 가이드라인
 
@@ -438,6 +484,19 @@ dart format lib/
 - **테스트**: 모든 PR은 테스트를 포함해야 합니다
 - **문서**: 새로운 기능은 문서화되어야 합니다
 - **커밋 메시지**: [Conventional Commits](https://www.conventionalcommits.org/) 형식 권장
+
+## ☕ 후원하기
+
+이 프로젝트가 유용하셨다면 커피 한 잔 사주세요! ☕
+
+<a href="https://www.buymeacoffee.com/newwork" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="50">
+</a>
+
+[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/newwork)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/newwork)
+
+> 후원금은 서버 비용, 도메인, 그리고 더 나은 기능 개발에 사용됩니다.
 
 ## 📄 라이센스
 
@@ -453,8 +512,8 @@ dart format lib/
 
 ## 📞 문의 및 지원
 
-- **이슈 트래커**: [GitHub Issues](https://github.com/yourusername/newwork/issues)
-- **토론**: [GitHub Discussions](https://github.com/yourusername/newwork/discussions)
+- **이슈 트래커**: [GitHub Issues](https://github.com/eightynine01/newwork/issues)
+- **토론**: [GitHub Discussions](https://github.com/eightynine01/newwork/discussions)
 - **문서**: [docs/](docs/)
 
 ## 📊 프로젝트 상태
