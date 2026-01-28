@@ -1,0 +1,103 @@
+version: '3.8'
+
+services:
+  # FastAPI 백엔드
+  backend:
+    build:
+      context: ./openwork-python
+      dockerfile: Dockerfile
+    container_name: openwork_backend
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    environment:
+      - DEBUG=${DEBUG:-False}
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///./data/openwork.db}
+      - OPENCODE_URL=${OPENCODE_URL:-http://host.docker.internal:8080}
+      - SECRET_KEY=${SECRET_KEY}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - openwork-network
+    # OpenCode가 호스트에서 실행되는 경우 host 네트워크 사용 가능
+    # network_mode: host
+
+  # PostgreSQL (프로덕션용)
+  postgres:
+    image: postgres:15-alpine
+    container_name: openwork_postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-openwork}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB:-openwork}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-openwork}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - openwork-network
+    profiles:
+      - production
+
+  # Redis (캐싱 및 세션 저장소 - 향후)
+  redis:
+    image: redis:7-alpine
+    container_name: openwork_redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    networks:
+      - openwork-network
+    profiles:
+      - production
+
+  # Nginx 리버스 프록시 (프로덕션용)
+  nginx:
+    image: nginx:alpine
+    container_name: openwork_nginx
+    ports:
+      - "${NGINX_HTTP_PORT:-80}:80"
+      - "${NGINX_HTTPS_PORT:-443}:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./logs/nginx:/var/log/nginx
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - openwork-network
+    profiles:
+      - production
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  openwork-network:
+    driver: bridge

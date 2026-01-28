@@ -1,0 +1,59 @@
+name: newwork
+description: NewWork - AI-powered coding assistant with integrated Python backend
+publish_to: 'none'
+version: 0.2.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State Management
+  flutter_riverpod: ^2.5.0
+
+  # Routing
+  go_router: ^14.0.0
+
+  # HTTP & WebSocket
+  dio: ^5.4.0
+  http: ^1.2.0
+  web_socket_channel: ^2.4.0
+
+  # Storage
+  shared_preferences: ^2.2.2
+  sqflite: ^2.3.0
+  path_provider: ^2.1.1
+  path: ^1.9.0
+
+  # Process Management
+  process_run: ^0.14.0
+
+  # File Handling
+  file_picker: ^8.0.0
+
+  # Platform Integration
+  url_launcher: ^6.2.0
+  share_plus: ^8.0.0
+
+  # UI
+  google_fonts: ^6.1.0
+  flutter_svg: ^2.0.9
+
+  # Utilities
+  intl: ^0.19.0
+  uuid: ^4.3.0
+  json_annotation: ^4.9.0
+  package_info_plus: ^8.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+  build_runner: ^2.4.0
+  json_serializable: ^6.8.0
+
+flutter:
+  uses-material-design: true

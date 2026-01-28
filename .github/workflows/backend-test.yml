@@ -1,0 +1,108 @@
+name: Backend Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'openwork-python/**'
+      - '.github/workflows/backend-test.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'openwork-python/**'
+      - '.github/workflows/backend-test.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+        cache-dependency-path: openwork-python/requirements.txt
+
+    - name: Install dependencies
+      run: |
+        cd openwork-python
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov pytest-asyncio black isort pylint mypy
+
+    - name: Check code formatting with Black
+      run: |
+        cd openwork-python
+        black --check app/ tests/
+
+    - name: Check import sorting with isort
+      run: |
+        cd openwork-python
+        isort --check-only app/ tests/
+
+    - name: Lint with pylint
+      run: |
+        cd openwork-python
+        pylint app/ --disable=C0114,C0115,C0116 --max-line-length=100
+      continue-on-error: true
+
+    - name: Type check with mypy
+      run: |
+        cd openwork-python
+        mypy app/ --ignore-missing-imports
+      continue-on-error: true
+
+    - name: Run tests with pytest
+      run: |
+        cd openwork-python
+        pytest tests/ --cov=app --cov-report=xml --cov-report=term-missing -v
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./openwork-python/coverage.xml
+        flags: backend
+        name: backend-${{ matrix.python-version }}
+        fail_ci_if_error: false
+
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage-report-${{ matrix.python-version }}
+        path: openwork-python/htmlcov/
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        cd openwork-python
+        pip install -r requirements.txt
+        pip install bandit safety
+
+    - name: Security check with bandit
+      run: |
+        cd openwork-python
+        bandit -r app/ -ll
+      continue-on-error: true
+
+    - name: Check dependencies for vulnerabilities
+      run: |
+        cd openwork-python
+        safety check --json
+      continue-on-error: true
