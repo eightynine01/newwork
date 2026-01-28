@@ -6,7 +6,12 @@
   <a href="README.md">English</a> |
   <a href="README.ko.md"><b>한국어</b></a> |
   <a href="README.zh-CN.md">简体中文</a> |
-  <a href="README.ja.md">日本語</a>
+  <a href="README.ja.md">日本語</a> |
+  <a href="README.pt-BR.md">Português</a> |
+  <a href="README.es.md">Español</a> |
+  <a href="README.ru.md">Русский</a> |
+  <a href="README.de.md">Deutsch</a> |
+  <a href="README.fr.md">Français</a>
 </p>
 
 [![GitHub stars](https://img.shields.io/github/stars/eightynine01/newwork?style=social)](https://github.com/eightynine01/newwork/stargazers)
@@ -18,6 +23,15 @@
 [![Flutter](https://img.shields.io/badge/flutter-3.0+-blue.svg)](https://flutter.dev/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-green.svg)](https://fastapi.tiangolo.com/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+
+<!-- Star History Chart -->
+<a href="https://star-history.com/#eightynine01/newwork&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=eightynine01/newwork&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=eightynine01/newwork&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=eightynine01/newwork&type=Date" />
+ </picture>
+</a>
 
 ## 📖 개요
 
