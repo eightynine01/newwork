@@ -1,0 +1,72 @@
+name: Star Tracker
+
+on:
+  schedule:
+    # 매일 한국시간 오전 9시 (UTC 0시)
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  track-stars:
+    runs-on: ubuntu-latest
+    env:
+      REPO_NAME: ${{ github.repository }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get Star Count
+        id: stars
+        run: |
+          STARS=$(curl -s "https://api.github.com/repos/${REPO_NAME}" | jq '.stargazers_count')
+          echo "count=$STARS" >> $GITHUB_OUTPUT
+          echo "date=$(date +%Y-%m-%d)" >> $GITHUB_OUTPUT
+
+      - name: Update Star History
+        run: |
+          mkdir -p .github/star-history
+
+          STAR_FILE=".github/star-history/stars.csv"
+          DATE="${{ steps.stars.outputs.date }}"
+          COUNT="${{ steps.stars.outputs.count }}"
+
+          # CSV 헤더 추가 (파일이 없으면)
+          if [ ! -f "$STAR_FILE" ]; then
+            echo "date,stars" > "$STAR_FILE"
+          fi
+
+          # 오늘 날짜 레코드 추가
+          echo "${DATE},${COUNT}" >> "$STAR_FILE"
+
+      - name: Generate Star Badge
+        run: |
+          STARS=${{ steps.stars.outputs.count }}
+          echo "Current stars: $STARS"
+
+      - name: Commit Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .github/star-history/
+          git diff --staged --quiet || git commit -m "chore: update star count (${{ steps.stars.outputs.date }})"
+          git push
+
+  notify-milestone:
+    runs-on: ubuntu-latest
+    needs: track-stars
+    env:
+      REPO_NAME: ${{ github.repository }}
+    steps:
+      - name: Check Milestones
+        run: |
+          STARS=$(curl -s "https://api.github.com/repos/${REPO_NAME}" | jq '.stargazers_count')
+
+          # 마일스톤 체크
+          for milestone in 100 500 1000 5000 10000; do
+            if [ "$STARS" -ge "$milestone" ]; then
+              echo "✅ Passed milestone: $milestone stars (current: $STARS)"
+            fi
+          done
